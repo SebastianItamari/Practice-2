@@ -9,6 +9,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+var configurationBuilder = new ConfigurationBuilder()
+        .SetBasePath(app.Environment.ContentRootPath)
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{app.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true)
+        .AddEnvironmentVariables();
+
+IConfiguration configuration = configurationBuilder.Build();
+
 // Configure the HTTP request pipeline.
 if(app.Environment.IsDevelopment())
 {
