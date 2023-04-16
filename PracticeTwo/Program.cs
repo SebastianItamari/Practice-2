@@ -1,4 +1,9 @@
 using Microsoft.OpenApi.Models;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +31,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +40,7 @@ if(app.Environment.EnvironmentName == "Development" || app.Environment.Environme
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    Log.Information("Application raised in " + app.Environment.EnvironmentName + " environment.");
 }
 
 app.UseHttpsRedirection();
