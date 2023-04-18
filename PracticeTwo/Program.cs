@@ -1,8 +1,10 @@
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Serilog.Sinks.File;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
+    .WriteTo.File("logs/PracticeTwo.log")
     .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
